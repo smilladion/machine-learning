@@ -2,7 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,visualstudio,visualstudiocode,git,opencv,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,visualstudio,visualstudiocode,git,opencv,python
 
-inputs/
+data/
 .idea/
 
 ### Git ###
