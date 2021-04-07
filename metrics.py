@@ -22,15 +22,50 @@ class MetricLogger:
     def reset(self):
         self.mat = np.zeros(self.mat.shape)
 
-
     @property
     def accuracy(self):
-        ...
+        # The ratio of correct predictions to the total number of test samples.
+        a = 0
+        for i in range(10):
+            a += self.mat[i][i]
+
+        b = 0
+        for i in range(10):
+            for j in range(10):
+                b += self.mat[i][j]
+
+        return a / b
 
     @property
     def precision(self):
-        ...
+        # The ratio of correct predictions for a certain class to the number of predictions for that class.
+        a = np.empty(10)
+        for i in range(10):
+            a[i] = self.mat[i][i]
+
+        b = np.empty(10)
+        for i in range(10):
+            x = 0
+            for j in range(10):
+                x += self.mat[j][i]
+
+            b[i] = x
+
+        return a / b
 
     @property
     def recall(self):
-        ...
+        # The ratio of correct predictions for a certain class to the number of samples belonging to that class.
+        a = np.empty(10)
+        for i in range(10):
+            a[i] = self.mat[i][i]
+
+        b = np.empty(10)
+        for i in range(10):
+            x = 0
+            for j in range(10):
+                x += self.mat[i][j]
+
+            b[i] = x
+
+        return a / b

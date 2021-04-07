@@ -65,13 +65,27 @@ class SKLearnTrainer(Trainer):
         )
 
     def train(self):
-        ...
+        self.model.fit(self.X_train, self.y_train)
+
+        y_predict = self.model.predict(self.X_val)
+
+        metric = MetricLogger()
+        metric.log(y_predict, self.y_val)
+
+        print("Accuracy: " + metric.accuracy)
+        print("Precision: " + metric.precision)
+        print("Recall: " + metric.recall)
 
     def predict(self, input):
         return self.model.predict(input)
 
     def evaluate(self):
-        ...
+        y_predict = self.model.predict(self.X_test)
+
+        metric = MetricLogger()
+        metric.log(y_predict, self.y_test)
+
+        return metric
 
     def save(self):
         with open(os.path.join("models", self.name + ".pkl"), "wb") as file:
