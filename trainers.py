@@ -69,12 +69,12 @@ class SKLearnTrainer(Trainer):
 
         y_predict = self.model.predict(self.X_val)
 
-        metric = MetricLogger()
+        metric = MetricLogger(False)
         metric.log(y_predict, self.y_val)
 
-        print("Accuracy: " + metric.accuracy)
-        print("Precision: " + metric.precision)
-        print("Recall: " + metric.recall)
+        print("Accuracy: " + str(metric.accuracy))
+        print("Precision: " + str(metric.precision))
+        print("Recall: " + str(metric.recall))
 
     def predict(self, input):
         return self.model.predict(input)

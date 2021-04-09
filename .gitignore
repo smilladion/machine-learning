@@ -3,7 +3,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,visualstudio,visualstudiocode,git,opencv,python
 
 data/
+FashionMNIST/
 .idea/
+models/
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
