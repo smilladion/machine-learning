@@ -47,7 +47,7 @@ class MetricLogger:
         for i in range(10):
             x = 0
             for j in range(10):
-                x += self.mat[j][i]
+                x += self.mat[i][j]
 
             b[i] = x
 
@@ -64,7 +64,7 @@ class MetricLogger:
         for i in range(10):
             x = 0
             for j in range(10):
-                x += self.mat[i][j]
+                x += self.mat[j][i]
 
             b[i] = x
 

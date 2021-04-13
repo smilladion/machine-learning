@@ -82,7 +82,7 @@ class SKLearnTrainer(Trainer):
     def evaluate(self):
         y_predict = self.model.predict(self.X_test)
 
-        metric = MetricLogger()
+        metric = MetricLogger(False)
         metric.log(y_predict, self.y_test)
 
         return metric
