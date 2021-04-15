@@ -108,7 +108,9 @@ class PyTorchTrainer(Trainer):
     def __init__(self, nn_module, transform, optimizer, batch_size):
         super().__init__(nn_module)
 
-        self.train_data, self.val_data, self.test_data = None, None, None
+        self.train_data = None
+        self.val_data = None
+        self.test_data = None
 
         self.transform = transform
         self.batch_size = batch_size
@@ -131,14 +133,43 @@ class PyTorchTrainer(Trainer):
         self.test_data = DataLoader(test_data, self.batch_size)
 
     def train(self, epochs):
-        ...
+        train_log = MetricLogger(False)
+        val_log = MetricLogger(False)
+
+        for e in range(epochs):
+            for i, (x, y) in enumerate(self.train_data):
+                out = self.model(x)  # The model instance can be called like a function
+                loss = F.cross_entropy(out, y)
+
+                self.optimizer.zero_grad()  # The gradient of the optimizer has to be reset before calculating the gradient.
+                loss.backward()
+                self.optimizer.step()  # This call updates the model weights.
+
+                y_predict = self.predict(x)
+                train_log.log(y_predict, y)
+
+                if i % 100 == 0:
+                    self.logger.add_scalar("AccuracyTrain", train_log.accuracy, i)
+                    self.logger.add_scalar("Loss", loss, i)
+
+            for i, (x, y) in enumerate(self.val_data):
+                y_predict = self.predict(x)
+                val_log.log(y_predict, y)
+
+                self.logger.add_scalar("AccuracyVal", val_log.accuracy, i)
 
     def predict(self, input):
         input = torch.tensor(input).float()
         return torch.argmax(self.model(input), dim=1)
 
     def evaluate(self):
-        ...
+        metric = MetricLogger(False)
+
+        for i, (x, y) in enumerate(self.test_data):
+            y_predict = self.predict(x)
+            metric.log(y_predict, y)
+
+        return metric
 
     def save(self):
         self.train_data, self.val_data, self.test_data = None, None, None
