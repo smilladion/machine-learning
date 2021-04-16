@@ -137,6 +137,9 @@ class PyTorchTrainer(Trainer):
         val_log = MetricLogger(False)
 
         for e in range(epochs):
+
+            val_log.reset()
+
             for i, (x, y) in enumerate(self.train_data):
                 out = self.model(x)  # The model instance can be called like a function
                 loss = F.cross_entropy(out, y)
@@ -148,15 +151,18 @@ class PyTorchTrainer(Trainer):
                 y_predict = self.predict(x)
                 train_log.log(y_predict, y)
 
+                step = i + e * len(self.train_data)  # Only using i won't work because it resets every epoch
+
                 if i % 100 == 0:
-                    self.logger.add_scalar("AccuracyTrain", train_log.accuracy, i)
-                    self.logger.add_scalar("Loss", loss, i)
+                    self.logger.add_scalar("Accuracy - Training", train_log.accuracy, step)
+                    self.logger.add_scalar("Loss - Training", loss, step)
+                    train_log.reset()
 
             for i, (x, y) in enumerate(self.val_data):
                 y_predict = self.predict(x)
                 val_log.log(y_predict, y)
 
-                self.logger.add_scalar("AccuracyVal", val_log.accuracy, i)
+            self.logger.add_scalar("Accuracy - Validation", val_log.accuracy, e)
 
     def predict(self, input):
         input = torch.tensor(input).float()

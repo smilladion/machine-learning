@@ -11,10 +11,7 @@ class Linear(nn.Module):
 
     def forward(self, x):
         x = torch.flatten(x, start_dim=1)
-        print(x.shape)
-        print(x.dtype)
         x = self.layer_1(x)
-        print(x.shape)
         return x
 
 
