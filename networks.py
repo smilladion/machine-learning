@@ -14,6 +14,47 @@ class Linear(nn.Module):
         x = self.layer_1(x)
         return x
 
+class MLP(nn.Module):
+    
+    def __init__(self):
+        super().__init__()
+        self.layer_1 = nn.Linear(784, 400)
+        self.layer_2 = nn.Linear(400, 10)
+
+    def forward(self, x):
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.layer_1(x)
+        x = F.relu(x)
+
+        x = self.layer_2(x)
+
+        return x
+
+class MLP_many_layer(nn.Module):
+    
+    def __init__(self):
+        super().__init__()
+        self.layer_1 = nn.Linear(784, 200)
+        self.layer_2 = nn.Linear(200, 150)
+        self.layer_3 = nn.Linear(150, 100)
+        self.layer_4 = nn.Linear(100, 10)
+
+    def forward(self, x):
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.layer_1(x)
+        x = F.relu(x)
+
+        x = self.layer_2(x)
+        #x = F.relu(x)
+
+        x = self.layer_3(x)
+        #x = F.relu(x)
+
+        x = self.layer_4(x)
+
+        return x
 
 class CNN4Layer(nn.Module):
     def __init__(self):
@@ -53,7 +94,7 @@ class BasicNetwork(nn.Module):
 
         x = self.layer_2(x)
 
-        return F.relu(x)
+        return x
 
 
 class CNN(nn.Module):
