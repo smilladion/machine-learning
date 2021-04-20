@@ -122,6 +122,81 @@ class CNN(nn.Module):
 
         return x
 
+class CNN_8_32_out(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_1 = nn.Conv2d(1, 8, kernel_size=9)
+        self.conv_3 = nn.Conv2d(8, 32, kernel_size=3)
+        self.linear_1 = nn.Linear(4**2 * 32, 60)
+        self.linear_2 = nn.Linear(60, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv_1(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = F.relu(self.conv_3(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.linear_1(x)
+        x = F.relu(x)
+
+        x = self.linear_2(x)
+
+        return x
+
+
+class CNN_8_128_out(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_1 = nn.Conv2d(1, 8, kernel_size=9)
+        self.conv_3 = nn.Conv2d(8, 128, kernel_size=3)
+        self.linear_1 = nn.Linear(4**2 * 128, 60)
+        self.linear_2 = nn.Linear(60, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv_1(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = F.relu(self.conv_3(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.linear_1(x)
+        x = F.relu(x)
+
+        x = self.linear_2(x)
+
+        return x
+
+class CNN_32_128_out(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_1 = nn.Conv2d(1, 32, kernel_size=9)
+        self.conv_3 = nn.Conv2d(32, 128, kernel_size=3)
+        self.linear_1 = nn.Linear(4**2 * 128, 60)
+        self.linear_2 = nn.Linear(60, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv_1(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = F.relu(self.conv_3(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.linear_1(x)
+        x = F.relu(x)
+
+        x = self.linear_2(x)
+
+        return x
 
 class TopCNN(nn.Module):
 
