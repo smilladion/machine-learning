@@ -57,12 +57,11 @@ class MetricLogger:
     def recall(self):
         # The ratio of correct predictions for a certain class to the number of samples belonging to that class.
         a = np.empty(10)
-        #for i in range(10):
-        #    a[i] = self.mat[i][i]
+        for i in range(10):
+            a[i] = self.mat[i][i]
 
         b = np.empty(10)
         for i in range(10):
-            a[i] = self.mat[i][i]
             x = 0
             for j in range(10):
                 x += self.mat[j][i]

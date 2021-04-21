@@ -14,6 +14,7 @@ class Linear(nn.Module):
         x = self.layer_1(x)
         return x
 
+
 class MLP(nn.Module):
     
     def __init__(self):
@@ -30,6 +31,7 @@ class MLP(nn.Module):
         x = self.layer_2(x)
 
         return x
+
 
 class MLP_many_layer(nn.Module):
     
@@ -55,6 +57,7 @@ class MLP_many_layer(nn.Module):
         x = self.layer_4(x)
 
         return x
+
 
 class CNN4Layer(nn.Module):
     def __init__(self):
@@ -122,6 +125,7 @@ class CNN(nn.Module):
 
         return x
 
+
 class CNN_8_32_out(nn.Module):
 
     def __init__(self):
@@ -173,6 +177,7 @@ class CNN_8_128_out(nn.Module):
 
         return x
 
+
 class CNN_32_128_out(nn.Module):
 
     def __init__(self):
@@ -197,6 +202,63 @@ class CNN_32_128_out(nn.Module):
         x = self.linear_2(x)
 
         return x
+
+
+class CNN_smaller_kernel(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_1 = nn.Conv2d(1, 8, kernel_size=3)
+        self.conv_3 = nn.Conv2d(8, 16, kernel_size=3)
+        self.linear_1 = nn.Linear(5 * 5 * 16, 60)
+        self.linear_2 = nn.Linear(60, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv_1(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = F.relu(self.conv_3(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.linear_1(x)
+        x = F.relu(x)
+
+        x = self.linear_2(x)
+
+        return x
+
+
+class CNN_4layer(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_1 = nn.Conv2d(1, 8, kernel_size=3)
+        self.conv_2 = nn.Conv2d(8, 16, kernel_size=3)
+        self.conv_3 = nn.Conv2d(16, 32, kernel_size=3)
+        self.conv_4 = nn.Conv2d(32, 64, kernel_size=3)
+        self.linear_1 = nn.Linear(4 * 4 * 64, 60)
+        self.linear_2 = nn.Linear(60, 10)
+
+    def forward(self, x):
+        x = F.relu(self.conv_1(x))
+        x = F.relu(self.conv_2(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = F.relu(self.conv_3(x))
+        x = F.relu(self.conv_4(x))
+        x = F.max_pool2d(x, kernel_size=2, stride=2)
+
+        x = torch.flatten(x, start_dim=1)
+
+        x = self.linear_1(x)
+        x = F.relu(x)
+
+        x = self.linear_2(x)
+
+        return x
+
 
 class TopCNN(nn.Module):
 

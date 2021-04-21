@@ -163,7 +163,6 @@ class PyTorchTrainer(Trainer):
                 val_log.log(y_predict, y)
 
             self.logger.add_scalar("Accuracy - Validation", val_log.accuracy, e)
-            
 
     def predict(self, input):
         input = torch.tensor(input).float()
